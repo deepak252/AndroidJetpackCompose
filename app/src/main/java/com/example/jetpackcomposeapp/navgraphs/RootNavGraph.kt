@@ -11,7 +11,7 @@ import com.example.jetpackcomposeapp.screens.SplashScreen
 
 
 @Composable
-fun RootNavHost(
+fun RootNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDest: String = Screen.Splash.route
@@ -37,8 +37,6 @@ fun RootNavHost(
 
 sealed class Screen(val route : String) {
     object Splash : Screen("splash")
-//    object Favorites : Screen("favorites")
-//    object Profile : Screen("profile")
     object BottomNav : Screen("bottomNav")
 }
 

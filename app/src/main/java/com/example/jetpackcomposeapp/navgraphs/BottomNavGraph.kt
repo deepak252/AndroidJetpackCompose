@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
@@ -17,7 +17,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposeapp.screens.FavoritesScreen
 import com.example.jetpackcomposeapp.screens.HomeScreen
 import com.example.jetpackcomposeapp.screens.ProfileScreen
-
 
 
 @Composable
@@ -82,19 +81,19 @@ sealed class BottomNavItem(
     object Home : BottomNavItem(
         BottomNavScreen.Home.route,
         "Home",
+        Icons.Filled.Home,
         Icons.Outlined.Home,
-        Icons.Filled.Home
     )
     object Favorites : BottomNavItem(
         BottomNavScreen.Favorites.route,
         "Favorites",
-        Icons.Outlined.Favorite,
-        Icons.Filled.Favorite
+        Icons.Filled.Favorite,
+        Icons.Outlined.FavoriteBorder,
     )
     object Profile : BottomNavItem(
         BottomNavScreen.Profile.route,
         "Profile",
+        Icons.Filled.Person,
         Icons.Outlined.Person,
-        Icons.Filled.Person
     )
 }
