@@ -1,11 +1,21 @@
 package com.example.jetpackcomposeapp
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.IntOffset
+import androidx.lifecycle.withCreated
 import androidx.navigation.NavHostController
 
 import com.example.jetpackcomposeapp.screens.FirstScreen
@@ -18,42 +28,81 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Navigation(
-    navController : NavHostController = rememberAnimatedNavController()
+    navController : NavHostController = rememberAnimatedNavController(),
+    initialOffsetX: Int = 1000
 ) {
     AnimatedNavHost(
         navController,
         startDestination = ScreenRoutes.FirstScreen.route,
 
         enterTransition = {
+            Log.d("MyTag","enterTransition, initialState : ${initialState.destination.route}, targetState : ${targetState.destination.route}")
             // When this screen(First) get pushed.
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = tween(400)
+            slideInHorizontally(
+                animationSpec = spring(
+                    stiffness = Spring.StiffnessMediumLow,
+                    visibilityThreshold = IntOffset.VisibilityThreshold
+                ),
+//                animationSpec = tween(400),
+                initialOffsetX = { initialOffsetX}
             )
+//            slideIntoContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Start,
+//                animationSpec = tween(400)
+//            )
 //                EnterTransition.None
         },
         exitTransition = {
             // When another screen(SecondScreen) gets pushed to this screen
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = tween(800)
+            Log.d("MyTag","exitTransition, initialState : ${initialState.destination.route}, targetState : ${targetState.destination.route}")
+
+            slideOutHorizontally (
+                animationSpec = spring(
+                    stiffness = Spring.StiffnessMediumLow,
+                    visibilityThreshold = IntOffset.VisibilityThreshold
+                ),
+//                animationSpec = tween(400),
+                targetOffsetX = { -initialOffsetX }
+
             )
+//            slideOutOfContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Start,
+//                animationSpec = tween(800)
+//            )
 //            ExitTransition.None
         },
         popEnterTransition = {
             // When another screen(SecondScreen) gets popped from this screen
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(200)
+            Log.d("MyTag","popEnterTransition, initialState : ${initialState.destination.route}, targetState : ${targetState.destination.route}")
+            slideInHorizontally(
+                animationSpec = spring(
+                    stiffness = Spring.StiffnessMediumLow,
+                    visibilityThreshold = IntOffset.VisibilityThreshold
+                ),
+//                animationSpec = tween(400),
+                initialOffsetX = { -initialOffsetX }
             )
+//            slideIntoContainer(
+//                AnimatedContentTransitionScope.SlideDirection.End,
+//                animationSpec = tween(200)
+//            )
 //            EnterTransition.None
         },
         popExitTransition = {
             //when pop back to previous screen (__)
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(400)
+            Log.d("MyTag","popExitTransition, initialState : ${initialState.destination.route}, targetState : ${targetState.destination.route}")
+            slideOutHorizontally(
+                animationSpec = spring(
+                    stiffness = Spring.StiffnessMediumLow,
+                    visibilityThreshold = IntOffset.VisibilityThreshold
+                ),
+//                animationSpec = tween(400),
+                targetOffsetX = { initialOffsetX }
             )
+//            slideOutOfContainer(
+//                AnimatedContentTransitionScope.SlideDirection.End,
+//                animationSpec = tween(400)
+//            )
 //                ExitTransition.None
         },
 
