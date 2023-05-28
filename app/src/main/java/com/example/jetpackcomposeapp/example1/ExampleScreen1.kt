@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -20,7 +21,10 @@ import androidx.compose.ui.unit.dp
 // Passing state as Lambda
 @Composable
 fun ExampleScreen1(){
-    var count by rememberSaveable() {
+    var count1 by rememberSaveable() {
+        mutableStateOf(1)
+    }
+    var count2 by rememberSaveable() {
         mutableStateOf(1)
     }
     Log.d("MyTag","State updated")
@@ -31,19 +35,58 @@ fun ExampleScreen1(){
     ){
         Column() {
 //            Text(text = "$count")  // this approach leads to recomposition on state change
-            CustomText(count = { count }) // Pass state as Lambda to avoid recomposition
+//            CustomText2(count = { count1 }) // Pass state as Lambda to avoid recomposition
+
+            MultiText(
+                count1 = { count1},
+                count2 = {count2}
+            )
             Spacer(modifier = Modifier.height(20.dp))
             Button(onClick = {
-                count++
+                count1++
             }) {
-                Text(text = "Click")
+                Text(text = "Click1")
+            }
+            Button(onClick = {
+                count2++
+            }) {
+                Text(text = "Click 2")
             }
         }
     }
 
 }
 
+@Composable
+private fun MultiText(
+    count1 : ()->Int,
+    count2 : ()->Int,
+){
+    Column(
+
+    ) {
+        Spacer(modifier = Modifier.height(20.dp))
+//        CustomText(count = count1())
+        CustomText2(count = { count1() })
+        Spacer(modifier = Modifier.height(20.dp))
+        CustomText2(count = { count2() })
+        Spacer(modifier = Modifier.height(20.dp))
+    }
+}
+
+@Composable
+private fun CustomText(count : Int){
+    Text(
+        text = "$count",
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+
 @Composable 
-private fun CustomText(count : ()->Int){
-    Text(text = "${count()}")
+private fun CustomText2(count : ()->Int){
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = "${count()}"
+    )
 }
